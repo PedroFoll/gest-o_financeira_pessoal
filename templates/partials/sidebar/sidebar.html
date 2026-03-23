@@ -1,0 +1,94 @@
+{% load static %}
+
+<aside class="sidebar" id="sidebar" aria-label="Menu principal">
+
+  <!-- Brand / Logo -->
+  <div class="sidebar-brand">
+    <a href="{% url 'home:index' %}" class="sidebar-brand-link" aria-label="Andromeda — página inicial">
+      <span class="sidebar-brand-name">Andromeda</span>
+    </a>
+  </div>
+
+  <!-- Perfil do usuário -->
+  <div class="sidebar-profile">
+    <div class="sidebar-profile-placeholder" aria-hidden="true">
+      <i class="bi bi-person-fill"></i>
+    </div>
+    <span class="sidebar-profile-name">
+      {% if user.is_authenticated %}
+        {{ user.get_full_name|default:user.username }}
+      {% else %}
+        Visitante
+      {% endif %}
+    </span>
+  </div>
+
+  <!-- Navegação principal -->
+  <nav aria-label="Navegação principal">
+    {% url 'home:index' as url_home %}
+    <ul class="sidebar-nav" role="list">
+
+      <li>
+        <a href="{{ url_home }}"
+           class="sidebar-nav-link {% if request.path == url_home %}active{% endif %}"
+           {% if request.path == url_home %}aria-current="page"{% endif %}>
+          <i class="bi bi-house-fill" aria-hidden="true"></i>
+          <span>Home</span>
+        </a>
+      </li>
+
+      <li>
+        {% url 'lancamentos:lista' as url_lancamentos %}
+        <a href="{{ url_lancamentos }}"
+           class="sidebar-nav-link {% if request.path|slice:':13' == '/lancamentos' %}active{% endif %}"
+           {% if request.path|slice:':13' == '/lancamentos' %}aria-current="page"{% endif %}>
+          <i class="bi bi-arrow-up-circle-fill" aria-hidden="true"></i>
+          <span>Lançamentos</span>
+        </a>
+      </li>
+
+      <li>
+        {% url 'categorias:lista' as url_categorias %}
+        <a href="{{ url_categorias }}"
+           class="sidebar-nav-link {% if request.path|slice:':12' == '/categorias' %}active{% endif %}"
+           {% if request.path|slice:':12' == '/categorias' %}aria-current="page"{% endif %}>
+          <i class="bi bi-tag-fill" aria-hidden="true"></i>
+          <span>Categorias</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="#"
+           class="sidebar-nav-link sidebar-nav-link--soon"
+           aria-disabled="true"
+           tabindex="-1">
+          <i class="bi bi-chat-dots-fill" aria-hidden="true"></i>
+          <span>Chat</span>
+          <span class="sidebar-badge" aria-label="Funcionalidade em breve">Em breve</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <!-- Rodapé: Login / Logout -->
+  <div class="sidebar-footer">
+    {% if user.is_authenticated %}
+      <a href="#" class="sidebar-nav-link">
+        {# TODO: substituir href por {% url 'logout' %} após configurar django.contrib.auth.urls #}
+        <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
+        <span>Logout</span>
+      </a>
+    {% else %}
+      <a href="#" class="sidebar-nav-link">
+        {# TODO: substituir href por {% url 'login' %} após configurar django.contrib.auth.urls #}
+        <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+        <span>Login</span>
+      </a>
+    {% endif %}
+  </div>
+
+</aside>
+
+<!-- Overlay para fechar a sidebar no mobile -->
+<div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>

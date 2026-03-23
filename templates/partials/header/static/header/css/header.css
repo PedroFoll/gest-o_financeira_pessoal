@@ -1,0 +1,145 @@
+/* =============================================================
+   Header — estilos do componente header
+   Arquivo: partials/header/static/header/css/header.css
+   ============================================================= */
+
+/* === HEADER WRAPPER === */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 16px 32px;
+  background-color: var(--cor-fundo);
+}
+
+/* === PILL INTERNO === */
+.site-header .header-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255, 153, 204, 0.15);
+  border: 1.5px solid rgba(255, 153, 204, 0.5);
+  border-radius: 50px;
+  padding: 8px 16px 8px 20px;
+  transition: box-shadow 0.2s ease;
+  max-width: 700px;
+  margin-left: auto;
+}
+
+.site-header .header-inner:focus-within {
+  box-shadow: 0 0 0 3px rgba(255, 102, 178, 0.12);
+}
+
+/* === BUSCA === */
+.site-header .header-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.site-header .header-search-icon {
+  color: var(--rosa-escuro);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.site-header .header-search-input {
+  flex: 1;
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 0.875rem;
+  color: var(--cor-texto);
+  font-family: var(--fonte-base);
+  min-width: 0;
+  padding: 0;
+}
+
+.site-header .header-search-input::placeholder {
+  color: rgba(108, 79, 148, 0.4);
+  font-style: italic;
+}
+
+.site-header .header-search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+/* === DIVISOR === */
+.site-header .header-divider {
+  width: 1px;
+  height: 18px;
+  background-color: rgba(255, 153, 204, 0.6);
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+/* === AÇÕES === */
+.site-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.site-header .header-action-btn {
+  position: relative;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--rosa-escuro);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.site-header .header-action-btn:hover {
+  background-color: rgba(255, 102, 178, 0.12) !important;
+  color: var(--roxo-escuro);
+}
+
+.site-header .header-action-btn:focus-visible {
+  outline: 2px solid var(--rosa-escuro);
+  outline-offset: 2px;
+}
+
+.site-header .header-action-btn:active {
+  background-color: rgba(255, 102, 178, 0.2) !important;
+}
+
+/* --- Badge de notificação --- */
+.site-header .header-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 7px;
+  height: 7px;
+  background-color: var(--rosa-escuro);
+  border-radius: 50%;
+  border: 1.5px solid var(--cor-fundo);
+  display: block;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 991.98px) {
+  .site-header {
+    padding: 10px 16px;
+  }
+
+  .site-header .header-inner {
+    max-width: 100%;
+    margin-left: 0;
+  }
+}
+

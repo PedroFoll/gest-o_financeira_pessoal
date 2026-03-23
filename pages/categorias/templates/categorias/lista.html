@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Categorias{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'categorias/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+
+  <div class="page-header">
+    <h1><i class="bi bi-tags me-2"></i>Categorias</h1>
+    <a href="{% url 'categorias:nova' %}" class="btn btn-andromeda">
+      <i class="bi bi-plus-lg me-1"></i> Nova Categoria
+    </a>
+  </div>
+
+  {% if categorias %}
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">Cor / Ícone</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="text-end">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for categoria in categorias %}
+            <tr>
+              <td>
+                <span class="cat-badge" style="background: {{ categoria.cor }}22;">
+                  <span class="cat-swatch" style="background: {{ categoria.cor }};"></span>
+                  <i class="bi {{ categoria.icone }}" style="color: {{ categoria.cor }};"></i>
+                </span>
+              </td>
+              <td class="fw-medium">{{ categoria.nome }}</td>
+              <td>
+                {% if categoria.ativo %}
+                  <span class="badge status-badge bg-success-subtle text-success">Ativa</span>
+                {% else %}
+                  <span class="badge status-badge bg-secondary-subtle text-secondary">Inativa</span>
+                {% endif %}
+              </td>
+              <td class="text-end">
+                <a href="{% url 'categorias:editar' categoria.pk %}"
+                   class="btn btn-sm btn-outline-secondary me-1"
+                   title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form method="post" action="{% url 'categorias:excluir' categoria.pk %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="text-center py-5 text-muted">
+    <i class="bi bi-tags fs-1 mb-3 d-block" style="color: var(--roxo-claro);"></i>
+    <p class="mb-3">Nenhuma categoria cadastrada ainda.</p>
+    <a href="{% url 'categorias:nova' %}" class="btn btn-andromeda">
+      <i class="bi bi-plus-lg me-1"></i> Criar Primeira Categoria
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lançamentos{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'lancamentos/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+
+  <div class="page-header">
+    <h1><i class="bi bi-journal-text me-2"></i>Lançamentos</h1>
+    <div class="d-flex gap-2">
+      <a href="{% url 'lancamentos:recorrentes_lista' %}" class="btn btn-outline-secondary" style="border-radius:50px;font-size:.875rem;">
+        <i class="bi bi-arrow-repeat me-1"></i> Recorrentes
+      </a>
+      <a href="{% url 'lancamentos:novo' %}" class="btn btn-andromeda">
+        <i class="bi bi-plus-lg me-1"></i> Novo Lançamento
+      </a>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filter-bar">
+    <form method="get" class="row g-2 align-items-end">
+      <div class="col-sm-6 col-md-3">
+        <label class="form-label small fw-medium mb-1">Tipo</label>
+        <select name="tipo" class="form-select form-select-sm">
+          <option value="">Todos</option>
+          <option value="RECEITA" {% if filtro_tipo == 'RECEITA' %}selected{% endif %}>Receita</option>
+          <option value="DESPESA" {% if filtro_tipo == 'DESPESA' %}selected{% endif %}>Despesa</option>
+        </select>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <label class="form-label small fw-medium mb-1">Categoria</label>
+        <select name="categoria" class="form-select form-select-sm">
+          <option value="">Todas</option>
+          {% for cat in categorias %}
+            <option value="{{ cat.pk }}" {% if filtro_categoria == cat.pk|stringformat:"s" %}selected{% endif %}>
+              {{ cat.nome }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-sm-6 col-md-2">
+        <label class="form-label small fw-medium mb-1">De</label>
+        <input type="date" name="data_inicio" class="form-control form-control-sm"
+               value="{{ filtro_data_inicio }}">
+      </div>
+      <div class="col-sm-6 col-md-2">
+        <label class="form-label small fw-medium mb-1">Até</label>
+        <input type="date" name="data_fim" class="form-control form-control-sm"
+               value="{{ filtro_data_fim }}">
+      </div>
+      <div class="col-md-2 d-flex gap-1">
+        <button type="submit" class="btn btn-sm btn-primary flex-fill">
+          <i class="bi bi-funnel me-1"></i>Filtrar
+        </button>
+        <a href="{% url 'lancamentos:lista' %}" class="btn btn-sm btn-outline-secondary" title="Limpar filtros">
+          <i class="bi bi-x-lg"></i>
+        </a>
+      </div>
+    </form>
+  </div>
+
+  {% if lancamentos %}
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">Data</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Categoria</th>
+              <th scope="col">Tipo</th>
+              <th scope="col" class="text-end">Valor</th>
+              <th scope="col" class="text-end">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lanc in lancamentos %}
+            <tr>
+              <td class="text-muted small">{{ lanc.data|date:"d/m/Y" }}</td>
+              <td>
+                <span class="fw-medium">{{ lanc.descricao }}</span>
+                {% if lanc.observacao %}
+                  <br><small class="text-muted">{{ lanc.observacao|truncatechars:50 }}</small>
+                {% endif %}
+              </td>
+              <td>
+                {% if lanc.categoria %}
+                  <span class="cat-dot" style="background: {{ lanc.categoria.cor }};"></span>
+                  {{ lanc.categoria.nome }}
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+              <td>
+                <span class="tipo-badge {% if lanc.tipo == 'RECEITA' %}tipo-receita{% else %}tipo-despesa{% endif %}">
+                  {% if lanc.tipo == 'RECEITA' %}
+                    <i class="bi bi-arrow-up-short"></i>Receita
+                  {% else %}
+                    <i class="bi bi-arrow-down-short"></i>Despesa
+                  {% endif %}
+                </span>
+              </td>
+              <td class="text-end {% if lanc.tipo == 'RECEITA' %}valor-receita{% else %}valor-despesa{% endif %}">
+                {% if lanc.tipo == 'RECEITA' %}+{% else %}-{% endif %}R$ {{ lanc.valor|floatformat:2 }}
+              </td>
+              <td class="text-end">
+                <a href="{% url 'lancamentos:editar' lanc.pk %}"
+                   class="btn btn-sm btn-outline-secondary me-1" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form method="post" action="{% url 'lancamentos:excluir' lanc.pk %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="text-center py-5 text-muted">
+    <i class="bi bi-journal-x fs-1 mb-3 d-block" style="color: var(--roxo-claro);"></i>
+    <p class="mb-3">Nenhum lançamento encontrado.</p>
+    <a href="{% url 'lancamentos:novo' %}" class="btn btn-andromeda">
+      <i class="bi bi-plus-lg me-1"></i> Criar Primeiro Lançamento
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

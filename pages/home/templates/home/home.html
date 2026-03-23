@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+  <!-- =====================================================
+       SEÇÃO 1 — CARDS DE DADOS PRINCIPAIS
+  ====================================================== -->
+  <section class="dashboard-section" aria-labelledby="sec-dados">
+    <h2 class="dashboard-section-title" id="sec-dados">Resumo</h2>
+
+    <div class="dashboard-cards">
+
+      <!-- Total de Receitas -->
+      <article class="dash-card dash-card--receita">
+        <div class="dash-card-icon" aria-hidden="true">
+          <i class="bi bi-arrow-up-circle-fill"></i>
+        </div>
+        <div class="dash-card-body">
+          <span class="dash-card-label">Receitas</span>
+          <span class="dash-card-value" id="total-receitas">R$ {{ total_receitas|floatformat:2 }}</span>
+        </div>
+        <div class="dash-card-progress" aria-label="Progresso de receitas">
+          <div class="dash-card-progress-bar" id="bar-receitas" style="width: 0%"></div>
+        </div>
+      </article>
+
+      <!-- Total de Despesas -->
+      <article class="dash-card dash-card--despesa">
+        <div class="dash-card-icon" aria-hidden="true">
+          <i class="bi bi-arrow-down-circle-fill"></i>
+        </div>
+        <div class="dash-card-body">
+          <span class="dash-card-label">Despesas</span>
+          <span class="dash-card-value" id="total-despesas">R$ {{ total_despesas|floatformat:2 }}</span>
+        </div>
+        <div class="dash-card-progress" aria-label="Progresso de despesas">
+          <div class="dash-card-progress-bar" id="bar-despesas" style="width: 0%"></div>
+        </div>
+      </article>
+
+      <!-- Saldo -->
+      <article class="dash-card dash-card--saldo">
+        <div class="dash-card-icon" aria-hidden="true">
+          <i class="bi bi-wallet2"></i>
+        </div>
+        <div class="dash-card-body">
+          <span class="dash-card-label">Saldo</span>
+          <span class="dash-card-value" id="total-saldo">R$ {{ total_saldo|floatformat:2 }}</span>
+        </div>
+        <div class="dash-card-progress" aria-label="Previsão de saldo">
+          <div class="dash-card-progress-bar" id="bar-saldo" style="width: 0%"></div>
+        </div>
+      </article>
+
+      <!-- Total de Movimentações -->
+      <article class="dash-card dash-card--mov">
+        <div class="dash-card-icon" aria-hidden="true">
+          <i class="bi bi-activity"></i>
+        </div>
+        <div class="dash-card-body">
+          <span class="dash-card-label">Movimentações</span>
+          <span class="dash-card-value" id="total-mov">{{ total_mov }}</span>
+        </div>
+        <div class="dash-card-progress" aria-label="Movimentações do mês">
+          <div class="dash-card-progress-bar" id="bar-mov" style="width: 0%"></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SEÇÃO 2 — GRÁFICOS
+  ====================================================== -->
+  <section class="dashboard-section dashboard-section--charts" aria-labelledby="sec-graficos">
+    <div class="dashboard-charts">
+
+      <!-- Gráfico de Barras: Receitas x Despesas (6 meses) -->
+      <div class="dash-chart-card">
+        <h2 class="dash-chart-title" id="sec-graficos">Receitas e Despesas — últimos 6 meses</h2>
+        <div class="dash-chart-wrap">
+          <canvas id="grafico-barras" role="img" aria-label="Gráfico de barras de receitas e despesas dos últimos 6 meses"></canvas>
+        </div>
+      </div>
+
+      <!-- Gráfico de Linha: Movimentações -->
+      <div class="dash-chart-card">
+        <h2 class="dash-chart-title">Movimentações — últimos 6 meses</h2>
+        <div class="dash-chart-wrap">
+          <canvas id="grafico-linha" role="img" aria-label="Gráfico de linha com quantidade de movimentações dos últimos 6 meses"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SEÇÃO 3 — ÚLTIMOS LANÇAMENTOS + CALENDÁRIO
+  ====================================================== -->
+  <section class="dashboard-section dashboard-section--bottom" aria-labelledby="sec-lancamentos">
+
+    <!-- Últimos lançamentos -->
+    <div class="dash-lancamentos">
+      <h2 class="dashboard-section-title" id="sec-lancamentos">Últimos Lançamentos</h2>
+      <div class="dash-lancamentos-lista" id="lista-lancamentos">
+        {% if ultimos_lancamentos %}
+          {% for l in ultimos_lancamentos %}
+          <div class="dash-lancamento-item">
+            <div>
+              <span class="dash-lancamento-desc">{{ l.descricao }}</span>
+              <small class="text-muted ms-2">{{ l.data|date:"d/m" }}</small>
+            </div>
+            <span class="dash-lancamento-valor dash-lancamento-valor--{{ l.tipo|lower }}">
+              {% if l.tipo == 'RECEITA' %}+{% else %}−{% endif %}R$ {{ l.valor|floatformat:2 }}
+            </span>
+          </div>
+          {% endfor %}
+        {% else %}
+          <p class="dash-empty">Nenhum lançamento registrado ainda.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Calendário -->
+    <div class="dash-calendar-wrap" aria-labelledby="cal-title">
+      <div class="dash-calendar">
+        <div class="cal-header">
+          <button class="cal-nav" id="cal-prev" aria-label="Mês anterior" type="button">
+            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+          </button>
+          <span class="cal-title" id="cal-title" aria-live="polite"></span>
+          <button class="cal-nav" id="cal-next" aria-label="Próximo mês" type="button">
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="cal-grid-header" aria-hidden="true">
+          <span>Dom</span><span>Seg</span><span>Ter</span>
+          <span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+        </div>
+        <div class="cal-grid" id="cal-grid" role="grid" aria-label="Calendário do mês"></div>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Dados do servidor para o dashboard.js
+  window.dadosDashboard = {{ dados_dashboard_json|safe }};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+<script src="{% static 'home/js/dashboard.js' %}" defer></script>
+{% endblock %}
+

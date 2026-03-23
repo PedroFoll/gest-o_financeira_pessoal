@@ -1,0 +1,62 @@
+﻿/* =============================================================
+   Variáveis CSS globais
+   ============================================================= */
+:root {
+  /* Paleta do projeto */
+  --rosa-claro: #FF99CC;
+  --rosa-escuro: #FF66B2;
+  --roxo-claro: #D1A7E2;
+  --roxo-escuro: #2c164b;
+  --branco: #FFFFFF;
+  --cinza-claro: #E1E1E1;
+
+  /* Mapeamento semântico */
+  --cor-primaria: var(--rosa-escuro);
+  --cor-secundaria: var(--roxo-escuro);
+  --cor-destaque: var(--roxo-claro);
+  --cor-texto: #212529;
+  --cor-fundo: var(--branco);
+  --cor-fundo-suave: var(--cinza-claro);
+  --fonte-base: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* Dimensões do layout */
+  --sidebar-width: 240px;
+  --topbar-height: 56px;
+}
+
+/* =============================================================
+   Reset / Base
+   ============================================================= */
+body {
+  font-family: var(--fonte-base);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-suave);
+  margin: 0;
+}
+
+/* =============================================================
+   Layout principal (sidebar + conteúdo)
+   ============================================================= */
+.layout-wrapper {
+  display: flex;
+}
+
+.page-content {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--cor-fundo);
+}
+
+.page-content main {
+  flex: 1;
+}
+
+/* =============================================================
+   Utilitários
+   ============================================================= */
+.texto-primario {
+  color: var(--cor-primaria);
+}

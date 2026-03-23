@@ -1,0 +1,37 @@
+{% load static %}
+
+<header class="site-header" role="banner">
+  <div class="header-inner">
+
+    <!-- Barra de pesquisa -->
+    <div class="header-search">
+      <i class="bi bi-search header-search-icon" aria-hidden="true"></i>
+      <input
+        type="search"
+        class="header-search-input"
+        placeholder="Pesquisar..."
+        aria-label="Pesquisar no sistema">
+    </div>
+
+    <!-- Divisor -->
+    <div class="header-divider" aria-hidden="true"></div>
+
+    <!-- Ações: Favoritos, Notificações, Perfil -->
+    <div class="header-actions">
+
+      <button class="header-action-btn" aria-label="Favoritos" type="button">
+        <i class="bi bi-heart" aria-hidden="true"></i>
+      </button>
+
+      <button class="header-action-btn" aria-label="Notificações" type="button">
+        <i class="bi bi-bell" aria-hidden="true"></i>
+        <span class="header-badge" aria-hidden="true"></span>
+      </button>
+
+      <button class="header-action-btn" aria-label="Perfil" type="button">
+        <i class="bi bi-person-circle" aria-hidden="true"></i>
+      </button>
+
+    </div>
+  </div>
+</header>

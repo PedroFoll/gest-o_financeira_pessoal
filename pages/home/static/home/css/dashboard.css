@@ -1,0 +1,333 @@
+/* =============================================================
+   Dashboard — estilos da página home
+   Arquivo: pages/home/static/home/css/dashboard.css
+   ============================================================= */
+
+/* === CONTAINER GERAL === */
+.dashboard {
+  padding: 24px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* === SECTION === */
+.dashboard-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dashboard-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--roxo-escuro);
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+/* =====================================================
+   CARDS DE DADOS PRINCIPAIS
+===================================================== */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.dash-card {
+  background-color: var(--branco);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 12px rgba(108, 79, 148, 0.08);
+  border: 1px solid var(--cinza-claro);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.dash-card:hover {
+  box-shadow: 0 4px 20px rgba(108, 79, 148, 0.14);
+  transform: translateY(-2px);
+}
+
+.dash-card-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.dash-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dash-card-label {
+  font-size: 0.8125rem;
+  color: var(--roxo-escuro);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dash-card-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+  line-height: 1.2;
+}
+
+/* --- Barra de progresso --- */
+.dash-card-progress {
+  height: 6px;
+  background-color: var(--cinza-claro);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.dash-card-progress-bar {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Variantes de cor por tipo --- */
+.dash-card--receita .dash-card-icon { color: #22c55e; }
+.dash-card--receita .dash-card-progress-bar { background-color: #22c55e; }
+
+.dash-card--despesa .dash-card-icon { color: var(--rosa-escuro); }
+.dash-card--despesa .dash-card-progress-bar { background-color: var(--rosa-escuro); }
+
+.dash-card--saldo .dash-card-icon { color: var(--roxo-escuro); }
+.dash-card--saldo .dash-card-progress-bar { background-color: var(--roxo-escuro); }
+
+.dash-card--mov .dash-card-icon { color: var(--roxo-claro); }
+.dash-card--mov .dash-card-progress-bar { background-color: var(--roxo-claro); }
+
+/* =====================================================
+   GRÁFICOS
+===================================================== */
+.dashboard-section--charts {
+  gap: 16px;
+}
+
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dash-chart-card {
+  background-color: var(--branco);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(108, 79, 148, 0.08);
+  border: 1px solid var(--cinza-claro);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dash-chart-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--roxo-escuro);
+  margin: 0;
+}
+
+.dash-chart-wrap {
+  position: relative;
+  height: 220px;
+}
+
+/* =====================================================
+   SEÇÃO INFERIOR: LANÇAMENTOS + CALENDÁRIO
+===================================================== */
+.dashboard-section--bottom {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
+  align-items: start;
+}
+
+/* --- Lançamentos --- */
+.dash-lancamentos {
+  background-color: var(--branco);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(108, 79, 148, 0.08);
+  border: 1px solid var(--cinza-claro);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dash-empty {
+  color: var(--roxo-claro);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 24px 0;
+  margin: 0;
+}
+
+.dash-lancamento-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cinza-claro);
+  font-size: 0.9rem;
+}
+
+.dash-lancamento-item:last-child {
+  border-bottom: none;
+}
+
+.dash-lancamento-desc {
+  font-weight: 500;
+  color: var(--cor-texto);
+}
+
+.dash-lancamento-valor {
+  font-weight: 700;
+}
+
+.dash-lancamento-valor--receita { color: #22c55e; }
+.dash-lancamento-valor--despesa { color: var(--rosa-escuro); }
+
+/* =====================================================
+   CALENDÁRIO
+===================================================== */
+.dash-calendar-wrap {
+  position: sticky;
+  top: 88px;
+}
+
+.dash-calendar {
+  background-color: var(--branco);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(108, 79, 148, 0.08);
+  border: 1px solid var(--cinza-claro);
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.cal-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--roxo-escuro);
+  text-transform: capitalize;
+}
+
+.cal-nav {
+  background: none;
+  border: none;
+  color: var(--roxo-claro);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.cal-nav:hover {
+  background-color: rgba(209, 167, 226, 0.2);
+  color: var(--roxo-escuro);
+}
+
+.cal-nav:focus-visible {
+  outline: 2px solid var(--rosa-escuro);
+  outline-offset: 2px;
+}
+
+.cal-grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.cal-grid-header span {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--roxo-claro);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 0;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  border-radius: 50%;
+  color: var(--cor-texto);
+  cursor: default;
+  transition: background-color 0.15s ease;
+}
+
+.cal-day--empty {
+  visibility: hidden;
+}
+
+.cal-day--today {
+  background-color: var(--rosa-escuro);
+  color: var(--branco);
+  font-weight: 700;
+}
+
+.cal-day--other-month {
+  color: var(--cinza-claro);
+}
+
+/* =====================================================
+   RESPONSIVIDADE
+===================================================== */
+@media (max-width: 1199.98px) {
+  .dashboard-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .dashboard {
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .dashboard-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-section--bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-calendar-wrap {
+    position: static;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+}

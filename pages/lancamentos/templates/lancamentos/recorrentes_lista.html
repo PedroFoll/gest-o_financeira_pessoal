@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Lançamentos Recorrentes{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'lancamentos/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+
+  <div class="page-header">
+    <div>
+      <a href="{% url 'lancamentos:lista' %}" class="btn btn-sm btn-outline-secondary mb-2">
+        <i class="bi bi-arrow-left me-1"></i>Voltar aos Lançamentos
+      </a>
+      <h1><i class="bi bi-arrow-repeat me-2"></i>Lançamentos Recorrentes</h1>
+    </div>
+    <div class="page-header-actions">
+      <a href="{% url 'lancamentos:recorrentes_novo' %}" class="btn btn-andromeda">
+        <i class="bi bi-plus-lg me-1"></i> Novo Recorrente
+      </a>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <i class="bi bi-info-circle me-2"></i>
+    Os lançamentos recorrentes são gerados automaticamente sempre que você acessar a tela de <strong>Lançamentos</strong>.
+    Configure aqui salários, aluguéis, assinaturas e qualquer despesa ou receita periódica.
+  </div>
+
+  {% if recorrentes %}
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Descrição</th>
+              <th>Tipo</th>
+              <th>Valor</th>
+              <th>Frequência</th>
+              <th>Dia / Início</th>
+              <th>Categoria</th>
+              <th>Status</th>
+              <th class="text-end">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for rec in recorrentes %}
+            <tr>
+              <td class="fw-medium">{{ rec.descricao }}</td>
+              <td>
+                <span class="tipo-badge {% if rec.tipo == 'RECEITA' %}tipo-receita{% else %}tipo-despesa{% endif %}">
+                  {% if rec.tipo == 'RECEITA' %}<i class="bi bi-arrow-up-short"></i>Receita
+                  {% else %}<i class="bi bi-arrow-down-short"></i>Despesa{% endif %}
+                </span>
+              </td>
+              <td class="fw-semibold {% if rec.tipo == 'RECEITA' %}text-success{% else %}text-danger{% endif %}">
+                R$ {{ rec.valor|floatformat:2 }}
+              </td>
+              <td><span class="freq-badge">{{ rec.get_frequencia_display }}</span></td>
+              <td class="text-muted small">
+                {% if rec.frequencia == 'MENSAL' or rec.frequencia == 'ANUAL' %}
+                  Dia {{ rec.dia_vencimento }}
+                {% else %}
+                  Desde {{ rec.data_inicio|date:"d/m/Y" }}
+                {% endif %}
+                {% if rec.data_fim %}<br><span class="text-danger">até {{ rec.data_fim|date:"d/m/Y" }}</span>{% endif %}
+              </td>
+              <td>
+                {% if rec.categoria %}
+                  <span class="cat-dot" style="background: {{ rec.categoria.cor }};"></span>{{ rec.categoria.nome }}
+                {% else %}<span class="text-muted">—</span>{% endif %}
+              </td>
+              <td>
+                {% if rec.ativo %}
+                  <span class="badge bg-success-subtle text-success" style="border-radius:50px;font-size:.75rem;">Ativo</span>
+                {% else %}
+                  <span class="badge bg-secondary-subtle text-secondary" style="border-radius:50px;font-size:.75rem;">Pausado</span>
+                {% endif %}
+              </td>
+              <td class="text-end">
+                <a href="{% url 'lancamentos:recorrentes_editar' rec.pk %}"
+                   class="btn btn-sm btn-outline-secondary me-1" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <form method="post" action="{% url 'lancamentos:recorrentes_excluir' rec.pk %}" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="text-center py-5 text-muted">
+    <i class="bi bi-arrow-repeat fs-1 mb-3 d-block" style="color: var(--roxo-claro);"></i>
+    <p class="mb-3">Nenhum lançamento recorrente cadastrado ainda.</p>
+    <a href="{% url 'lancamentos:recorrentes_novo' %}" class="btn btn-andromeda">
+      <i class="bi bi-plus-lg me-1"></i> Criar Primeiro Recorrente
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

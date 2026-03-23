@@ -1,0 +1,227 @@
+/* =============================================================
+   Sidebar — estilos do componente sidebar
+   Arquivo: partials/sidebar/static/sidebar/css/sidebar.css
+   ============================================================= */
+
+/* === TOPBAR (mobile) === */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--topbar-height);
+  background-color: var(--roxo-escuro);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+  z-index: 1030;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.topbar-toggle {
+  background: none;
+  border: none;
+  color: var(--branco);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.topbar-toggle:focus-visible {
+  outline: 2px solid var(--rosa-claro);
+  outline-offset: 2px;
+}
+
+.topbar-title {
+  color: var(--rosa-claro);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--roxo-escuro);
+  color: var(--branco);
+  display: flex;
+  flex-direction: column;
+  z-index: 1040;
+  transition: transform 0.3s ease;
+}
+
+/* --- Brand --- */
+.sidebar-brand {
+  padding: 24px 16px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.sidebar-brand-link {
+  text-decoration: none;
+}
+
+.sidebar-brand-name {
+  color: var(--rosa-claro);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: block;
+  text-align: center;
+}
+
+/* --- Perfil --- */
+.sidebar-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sidebar-profile-img,
+.sidebar-profile-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid var(--rosa-claro);
+}
+
+.sidebar-profile-img {
+  object-fit: cover;
+}
+
+.sidebar-profile-placeholder {
+  background-color: var(--roxo-claro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--branco);
+}
+
+.sidebar-profile-name {
+  color: var(--branco);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Navegação --- */
+.sidebar-nav {
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.sidebar-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--rosa-claro);
+}
+
+.sidebar-nav-link:focus-visible {
+  outline: 2px solid var(--rosa-claro);
+  outline-offset: -2px;
+  color: var(--rosa-claro);
+}
+
+.sidebar-nav-link.active {
+  background-color: var(--rosa-escuro);
+  color: var(--branco);
+  font-weight: 600;
+}
+
+.sidebar-nav-link i {
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* --- Badge "Em breve" --- */
+.sidebar-badge {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  background-color: var(--roxo-claro);
+  color: var(--roxo-escuro);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* --- Item desabilitado (Chat) --- */
+.sidebar-nav-link--soon {
+  opacity: 0.65;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* --- Rodapé do sidebar --- */
+.sidebar-footer {
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+/* --- Overlay mobile --- */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1039;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 991.98px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .page-content {
+    margin-left: 0;
+    padding-top: var(--topbar-height);
+  }
+}
