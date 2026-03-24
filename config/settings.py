@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     # páginas do projeto — adicione cada pages.<nome> aqui
     'pages.home',
+    'pages.usuarios',
     'pages.categorias',
     'pages.lancamentos',
 ]
